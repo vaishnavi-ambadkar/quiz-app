@@ -141,7 +141,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({ origin: "*", methods: ["POST", "GET"], credentials: true }));
+app.use(cors({ 
+    origin: ["https://quiz-app-f.vercel.app"], // Allow only your frontend
+    methods: ["POST", "GET"], 
+    credentials: true 
+}));
 app.use(express.json());
 
 mongoose
