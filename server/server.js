@@ -95,7 +95,8 @@ const Question = mongoose.model("Question", questionSchema);
 // ✅ API to Manually Insert Questions (Only Run This Once)
 app.get("/insert-questions", async (req, res) => {
   try {
-    const questions = [
+    await Question.deleteMany({});
+    await Question.insertMany([
       { id: "q1", text: "What comes next in the sequence: 1, 4, 9, 16, __?", answers: ["20", "25", "30"], correct: "25" },
       { id: "q2", text: "A clock shows 3:15. What is the angle between the hour and minute hands?", answers: ["30°", "7.5°", "12°"], correct: "7.5°" },
       { id: "q3", text: "If a rooster lays an egg on top of a roof, which way does it roll?", answers: ["Left", "It doesn't", "Down"], correct: "It doesn't" },
@@ -105,11 +106,9 @@ app.get("/insert-questions", async (req, res) => {
       { id: "q7", text: "A bat and a ball cost $1.10 together. The bat costs $1.00 more than the ball. How much does the ball cost?", answers: ["10 cents", "5 cents", "1 cent"], correct: "5 cents" },
       { id: "q8", text: "What is always coming but never arrives?", answers: ["Future", "Tomorrow", "Sunrise"], correct: "Tomorrow" },
       { id: "q9", text: "Which letter is next in the sequence: J, F, M, A, M, __?", answers: ["J", "F", "S"], correct: "J" },
-      { id: "q10", text: "I have branches, but no trunk or leaves. What am I?", answers: ["Road", "Bank", "River"], correct: "Bank" },
-    ];
+      { id: "q10", text: "I have branches, but no trunk or leaves. What am I?", answers: ["Road", "Bank", "River"], correct: "Bank" }
+    ]);
 
-    await Question.deleteMany({});
-    await Question.insertMany(questions);
     res.json({ message: "✅ Questions inserted successfully!" });
   } catch (error) {
     res.status(500).json({ error: "❌ Failed to insert questions", details: error.message });
